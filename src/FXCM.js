@@ -86,6 +86,8 @@ class FXCM {
         await this.initialise()
         try {
             symbol = symbol.replace(/_/, '/')
+            tf = C.getTF(tf)
+
             const { offerId } = offers.find((offer) => offer.currency === symbol && offer.offerId)
 
             if (!offerId || C.TIMEFRAMES.indexOf(tf) === -1) {

@@ -124,6 +124,7 @@ class FXCM {
                     // mid: normalisePrice( symbol, mid }),
                     highD: normalisePrice(symbol, askHigh - bidHigh),
                     lowD: normalisePrice(symbol, askLow - bidLow),
+                    spread: normalisePrice(symbol, askClose - bidClose),
                     vol,
                 }
             })

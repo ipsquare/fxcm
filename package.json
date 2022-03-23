@@ -1,39 +1,41 @@
 {
-  "name": "fxcm",
-  "version": "0.1.0",
-  "description": "A client to programmatically trade with FXCM REST API",
-  "main": "./src/index.js",
-  "files": [
-    "/src"
-  ],
-  "scripts": {
-    "start": "node index"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chrisgitrepo/fxcm.git"
-  },
-  "keywords": [
-    "FXCM",
-    "fxcm",
-    "spreadbet",
-    "spreadbetting",
-    "trading",
-    "trade",
-    "tradestation",
-    "finance"
-  ],
-  "author": "Chris Sarmiento",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/chrisgitrepo/fxcm/issues"
-  },
-  "homepage": "https://github.com/chrisgitrepo/fxcm#readme",
-  "dependencies": {
-    "moment-timezone": "^0.5.33",
-    "socket.io-client": "2.3.1"
-  },
-  "devDependencies": {
-    "jest": "^24.9.0"
-  }
+    "name": "fxcm",
+    "version": "0.9.0",
+    "description": "A client to programmatically trade with FXCM REST API",
+    "main": "./src/index.js",
+    "files": [
+        "/src"
+    ],
+    "scripts": {
+        "start": "node index"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ipsquare/fxcm.git"
+    },
+    "keywords": [
+        "FXCM",
+        "fxcm",
+        "spreadbet",
+        "spreadbetting",
+        "trading",
+        "trade",
+        "tradestation",
+        "finance"
+    ],
+    "author": "Chris Sarmiento",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ipsquare/fxcm/issues"
+    },
+    "homepage": "https://github.com/ipsquare/fxcm#readme",
+    "dependencies": {
+        "dayjs": "^1.11.0",
+        "lodash": "^4.17.21",
+        "moment-timezone": "^0.5.33",
+        "socket.io-client": "2.3.1"
+    },
+    "devDependencies": {
+        "jest": "^27.5.1"
+    }
 }

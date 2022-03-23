@@ -77,7 +77,7 @@ function api({ token, isDemo }) {
     });
 
     socket.on('connect', () => {
-      console.log('Socket.IO session has been opened: ', socket.id);
+      // console.log('Socket.IO session has been opened: ', socket.id);
       requestHeaders.Authorization = 'Bearer ' + socket.id + token;
       resolve(requestHeaders)
     });

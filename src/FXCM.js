@@ -112,8 +112,8 @@ class FXCM {
                 const low = getMidPrice(bidLow, askLow)
 
                 return {
-                    symbol,
-                    tf,
+                    // symbol,
+                    // tf,
                     timestamp: timestamp * 1000,
                     // datetime: moment.unix(timestamp).format(C.DATETIME_FORMAT),
                     // datetime: dayjs.unix(timestamp).utc().format(C.DATETIME_FORMAT),

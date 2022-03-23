@@ -33,7 +33,7 @@ const fxcm = new FXCM(config)
 
 // Get 30min historical candle data for USD/CAD. Max 50 data points (live/current candle is removed by default)
 
-const result = await fxcm.historical({ symbol: 'EUR_JPY', tf: 'm15', datapoints: 3 })
+const result = await fxcm.historical({ symbol: 'EUR/JPY', tf: 'm15', datapoints: 3, csv: false })
 console.log({ result })
 
 // Get current market data for your subscribed symbols (subscription list can be edited at tradingstation.fxcm.com)

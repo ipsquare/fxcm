@@ -105,7 +105,7 @@ class FXCM {
             if (csv) return { candles }
 
             const formattedPrices = candles.map((price) => {
-                const [timestamp, bidOpen, bidClose, bidHigh, bidLow, askOpen, askClose, askHigh, askLow, vol] = price
+                const [timestamp, bidOpen, bidClose, bidHigh, bidLow, askOpen, askClose, askHigh, askLow, volume] = price
 
                 const close = getMidPrice(bidClose, askClose)
                 const open = getMidPrice(bidOpen, askOpen)
@@ -127,7 +127,7 @@ class FXCM {
                     highD: normalisePrice(symbol, askHigh - bidHigh),
                     lowD: normalisePrice(symbol, askLow - bidLow),
                     spread: normalisePrice(symbol, askClose - bidClose),
-                    vol,
+                    volume,
                 }
             })
             // return removeCurrentCandle(formattedPrices)

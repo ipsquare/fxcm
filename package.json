@@ -1,6 +1,6 @@
 {
     "name": "fxcm",
-    "version": "0.9.0",
+    "version": "1.0.0",
     "description": "A client to programmatically trade with FXCM REST API",
     "main": "./src/index.js",
     "files": [

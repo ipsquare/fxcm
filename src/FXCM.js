@@ -4,7 +4,7 @@ const D = false
 
 const C = require('./lib/constants'),
     api = require('./lib/api'),
-    { getMidPrice, normalisePrice, removeCurrentCandle } = require('./lib/price'),
+    { getMidPrice, getPipSize, normalisePrice, removeCurrentCandle } = require('./lib/price'),
     offers = require('./lib/offers.json')
 
 const { log } = console,
@@ -82,7 +82,7 @@ class FXCM {
         }
     }
 
-    async historical({ symbol, tf = 'm30', datapoints = 1, priceType = 0 }) {
+    async historical({ symbol, tf = 'm30', datapoints = 1, csv = false }) {
         await this.initialise()
         try {
             symbol = symbol.replace(/_/, '/')
@@ -100,16 +100,16 @@ class FXCM {
             if (response.error !== '' || candles.length === 0)
                 throw new Error(`Error with historical response - returned candles: ${candles}`)
 
-            if (priceType === 1) return candles
+            if (csv) return { candles }
 
             const formattedPrices = candles.map((price) => {
                 const [timestamp, bidOpen, bidClose, bidHigh, bidLow, askOpen, askClose, askHigh, askLow, vol] = price
 
-                const close = getMidPrice(bidClose, askClose, priceType)
-                const open = getMidPrice(bidOpen, askOpen, priceType)
-                // const mid = getMidPrice(open, close, priceType)
-                const high = getMidPrice(bidHigh, askHigh, priceType)
-                const low = getMidPrice(bidLow, askLow, priceType)
+                const close = getMidPrice(bidClose, askClose)
+                const open = getMidPrice(bidOpen, askOpen)
+                // const mid = getMidPrice(open, close)
+                const high = getMidPrice(bidHigh, askHigh)
+                const low = getMidPrice(bidLow, askLow)
 
                 return {
                     symbol,
@@ -128,7 +128,7 @@ class FXCM {
                 }
             })
             // return removeCurrentCandle(formattedPrices)
-            return formattedPrices
+            return { candles: formattedPrices, pipSize: getPipSize(symbol) }
         } catch (err) {
             console.error(`Error with symbol: ${symbol}. ${err}`)
         }

@@ -2,11 +2,15 @@
 
 const _ = require('lodash')
 
-function getMidPrice(lowerPrice, upperPrice, priceType) {
+function getMidPrice(lowerPrice, upperPrice) {
     const standardMidPrice = upperPrice > lowerPrice && lowerPrice + (upperPrice - lowerPrice) / 2
     const scewedMidPrice = upperPrice < lowerPrice && upperPrice + (lowerPrice - upperPrice) / 2
 
     return standardMidPrice || scewedMidPrice || upperPrice
+}
+
+function getPipSize(symbol) {
+    return symbol.includes('JPY') || symbol.includes('HUF') ? 0.01 : 0.0001
 }
 
 const roundDecimal = (num) => num.toFixed(2)
@@ -30,6 +34,7 @@ function removeCurrentCandle(data) {
 
 module.exports = {
     getMidPrice,
+    getPipSize,
     normalisePrice,
     // denormalisePairValue,
     removeCurrentCandle,

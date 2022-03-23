@@ -1,37 +1,36 @@
-const moment = require('moment-timezone')
+// src/lib/price.js
 
-moment.tz.setDefault('UTC')
+const _ = require('lodash')
 
-function getMidPrice(lowerPrice, upperPrice) {
-  const standardMidPrice = upperPrice > lowerPrice && (lowerPrice + ((upperPrice - lowerPrice) / 2))
-  const scewedMidPrice = upperPrice < lowerPrice && (upperPrice + ((lowerPrice - upperPrice) / 2))
+function getMidPrice(lowerPrice, upperPrice, priceType) {
+    const standardMidPrice = upperPrice > lowerPrice && lowerPrice + (upperPrice - lowerPrice) / 2
+    const scewedMidPrice = upperPrice < lowerPrice && upperPrice + (lowerPrice - upperPrice) / 2
 
-  return standardMidPrice || scewedMidPrice || upperPrice
+    return standardMidPrice || scewedMidPrice || upperPrice
 }
 
-function normalisePrice({ pair, price }) {
-  const roundDecimal = (num) => num.toFixed(2)
+const roundDecimal = (num) => num.toFixed(2)
 
-  return pair.includes('JPY') || pair.includes('HUF')
-    ? parseFloat(roundDecimal(parseFloat(price) * 100))
-    : parseFloat(roundDecimal(parseFloat(price) * 10000))
+function normalisePrice(symbol, price) {
+    return symbol.includes('JPY') || symbol.includes('HUF') ? _.round(price, 3) : _.round(price, 5)
 }
 
-function denormalisePairValue({ pair, value }) {
-  return pair.includes('JPY') || pair.includes('HUF')
-    ? parseFloat((parseFloat(value) / 100).toFixed(3))
-    : parseFloat((parseFloat(value) / 10000).toFixed(5))
-}
+// function denormalisePairValue(symbol, value) {
+//     return symbol.includes('JPY') || symbol.includes('HUF')
+//         ? parseFloat((parseFloat(value) / 100).toFixed(3))
+//         : parseFloat((parseFloat(value) / 10000).toFixed(5))
+// }
 
 function removeCurrentCandle(data) {
-  const sortedData = data.sort((oldest, newest) => moment(oldest.timestamp).diff(moment(newest.timestamp)))
-  sortedData.pop()
-  return sortedData
+    // const sortedData = data.sort((oldest, newest) => moment(oldest.timestamp).diff(moment(newest.timestamp)))
+    const sortedData = _.sortBy(data, 'timestamp')
+    sortedData.pop()
+    return sortedData
 }
 
 module.exports = {
-  getMidPrice,
-  normalisePrice,
-  denormalisePairValue,
-  removeCurrentCandle
+    getMidPrice,
+    normalisePrice,
+    // denormalisePairValue,
+    removeCurrentCandle,
 }

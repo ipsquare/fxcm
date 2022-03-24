@@ -94,7 +94,7 @@ function api({ token, isDemo }) {
 
     socket.on('disconnect', () => {
       console.log('Socket disconnected, terminating client.');
-      process.exit(-1);
+      // process.exit(-1);
     });
   })
 

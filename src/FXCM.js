@@ -133,7 +133,7 @@ class FXCM {
             // return removeCurrentCandle(formattedPrices)
             return { candles: formattedPrices, pipSize: getPipSize(symbol) }
         } catch (err) {
-            console.error(`Error with symbol: ${symbol}. ${err}`)
+            console.error(`Error with symbol: ${symbol}@${tf}. ${err}`)
         }
     }
 }

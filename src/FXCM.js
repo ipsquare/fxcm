@@ -4,6 +4,7 @@ const D = false
 
 const C = require('./lib/constants'),
     api = require('./lib/api'),
+    fs = require('fs'),
     { getMidPrice, getPipSize, normalisePrice, removeCurrentCandle } = require('./lib/price'),
     offers = require('./lib/offers.json')
 
@@ -38,6 +39,11 @@ class FXCM {
     async markets() {
         await this.initialise()
         try {
+            // return saved cache
+            if (process.env.CACHE) {
+                return JSON.parse(fs.readFileSync('/tmp/fxcm-offers.json', 'utf8'))
+            }
+
             const response = await this.fxcm.request('GET', '/trading/get_model', { models: ['Offer'] })
 
             if (!response || !response.offers) {
@@ -51,7 +57,7 @@ class FXCM {
 
                 const currentPrice = normalisePrice(currency, getMidPrice(buy, sell))
 
-                return {
+                const result = {
                     currentPrice,
                     currency,
                     spread,
@@ -59,6 +65,10 @@ class FXCM {
                     dateUpdated: dateTimeMoment.format(C.DATE_FORMAT),
                     timestamp: dateTimeMoment.unix(),
                 }
+
+                process.env.SAVE && fs.writeFileSync('/tmp/fxcm-offers.json', JSON.stringify(result, null, 4))
+
+                return result
             })
         } catch (err) {
             console.error(err)
@@ -105,7 +115,8 @@ class FXCM {
             if (csv) return { candles }
 
             const formattedPrices = candles.map((price) => {
-                const [timestamp, bidOpen, bidClose, bidHigh, bidLow, askOpen, askClose, askHigh, askLow, volume] = price
+                const [timestamp, bidOpen, bidClose, bidHigh, bidLow, askOpen, askClose, askHigh, askLow, volume] =
+                    price
 
                 const close = getMidPrice(bidClose, askClose)
                 const open = getMidPrice(bidOpen, askOpen)

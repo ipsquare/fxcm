@@ -66,8 +66,10 @@ class FXCM {
                     timestamp: dateTimeMoment.unix(),
                 }
 
-                process.env.SAVE && fs.writeFileSync('/tmp/fxcm-offers.json', JSON.stringify(result, null, 4))
-
+                if (process.env.SAVE) {
+                    console.log(`Saving cache - use CACHE=y to load`)
+                    fs.writeFileSync('/tmp/fxcm-offers.json', JSON.stringify(result, null, 4))
+                }
                 return result
             })
         } catch (err) {

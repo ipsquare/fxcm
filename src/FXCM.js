@@ -88,6 +88,7 @@ class FXCM {
         try {
             // return saved cache
             if (process.env.CACHE) {
+                console.log(`Using cache - use SAVE=y to resave`)
                 return JSON.parse(fs.readFileSync('/tmp/fxcm-historical.json', 'utf8'))
             }
 

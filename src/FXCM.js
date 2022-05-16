@@ -150,6 +150,8 @@ class FXCM {
             return result
         } catch (err) {
             console.error(`Error with symbol: ${symbol}@${tf}. ${err}`)
+            console.log('restart')
+            process.exit(1)
         }
     }
 }

@@ -150,8 +150,8 @@ class FXCM {
             return result
         } catch (err) {
             console.error(`Error with symbol: ${symbol}@${tf}. ${err}`)
-            console.log('✋🤸‍♂️ restart reqd.')
-            process.exit(1)
+            console.log('✋🤸‍♂️ restart desired!')
+            return { candles: [], pipSize: getPipSize(symbol) }
         }
     }
 }

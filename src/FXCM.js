@@ -29,6 +29,13 @@ class FXCM {
         }
     }
 
+    async relogin() {
+        if (this.loggedIn) {
+            await this.logout()
+            await this.initialise()
+        }
+    }
+
     async logout() {
         if (this.loggedIn) {
             await this.fxcm.logout()
@@ -150,7 +157,8 @@ class FXCM {
             return result
         } catch (err) {
             console.error(`Error with symbol: ${symbol}@${tf}. ${err}`)
-            console.log('✋🤸‍♂️ restart desired!')
+            console.log('✋🤸‍♂️ trying relogin!')
+            await this.relogin()
             return { candles: [], pipSize: getPipSize(symbol) }
         }
     }

@@ -93,12 +93,12 @@ class FXCM {
     async historical({ symbol, tf = 'm30', datapoints = 1, csv = false }) {
         await this.initialise()
         try {
+            const cacheFilename = `/tmp/fxcm-historical-${symbol.replace(/\//g, '_')}-${tf}.json`.toLowerCase()
+
             // return saved cache
             if (process.env.CACHE) {
                 console.log(`Using cache - use SAVE=y to resave`)
-                return JSON.parse(
-                    fs.readFileSync(`/tmp/fxcm-historical-${symbol.replace(/\//g, '_')}-${tf}.json`, 'utf8')
-                )
+                return JSON.parse(fs.readFileSync(cacheFilename, 'utf8'))
             }
 
             symbol = symbol.replace(/_/, '/')
@@ -153,10 +153,7 @@ class FXCM {
 
             if (process.env.SAVE) {
                 console.log(`Saving cache - use CACHE=y to load`)
-                fs.writeFileSync(
-                    `/tmp/fxcm-historical-${symbol.replace(/\//g, '_')}-${tf}.json`,
-                    JSON.stringify(result, null, 4)
-                )
+                fs.writeFileSync(cacheFilename, JSON.stringify(result, null, 4))
             }
 
             return result

@@ -97,7 +97,7 @@ class FXCM {
             if (process.env.CACHE) {
                 console.log(`Using cache - use SAVE=y to resave`)
                 return JSON.parse(
-                    fs.readFileSync(`/tmp/fxcm-historical-${symbol}-${tf}.json`.replace(/\//g, '_'), 'utf8')
+                    fs.readFileSync(`/tmp/fxcm-historical-${symbol.replace(/\//g, '_')}-${tf}.json`, 'utf8')
                 )
             }
 
@@ -154,7 +154,7 @@ class FXCM {
             if (process.env.SAVE) {
                 console.log(`Saving cache - use CACHE=y to load`)
                 fs.writeFileSync(
-                    `/tmp/fxcm-historical-${symbol}-${tf}.json`.replace(/\//g, '_'),
+                    `/tmp/fxcm-historical-${symbol.replace(/\//g, '_')}-${tf}.json`,
                     JSON.stringify(result, null, 4)
                 )
             }

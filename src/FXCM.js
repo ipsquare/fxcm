@@ -91,16 +91,16 @@ class FXCM {
     }
 
     async historical({ symbol, tf = 'm30', datapoints = 1, csv = false }) {
+        const cacheFilename = `/tmp/fxcm-historical-${symbol.replace(/\//g, '_')}-${tf}.json`.toLowerCase()
+
+        // return saved cache if applicable
+        if (process.env.CACHE || process.env.READ) {
+            console.log(`Using cache - use SAVE=y to resave`)
+            return JSON.parse(fs.readFileSync(cacheFilename, 'utf8'))
+        }
+
         await this.initialise()
         try {
-            const cacheFilename = `/tmp/fxcm-historical-${symbol.replace(/\//g, '_')}-${tf}.json`.toLowerCase()
-
-            // return saved cache
-            if (process.env.CACHE) {
-                console.log(`Using cache - use SAVE=y to resave`)
-                return JSON.parse(fs.readFileSync(cacheFilename, 'utf8'))
-            }
-
             symbol = symbol.replace(/_/, '/')
             tf = C.getTF(tf)
 
@@ -159,7 +159,7 @@ class FXCM {
             return result
         } catch (err) {
             console.error(`Error with symbol: ${symbol}@${tf}. ${err}`)
-            console.log('✋🤸‍♂️ trying relogin!')
+            console.log('✋🤸‍♂️ trying relogin! or use SAVE-READ')
             await this.relogin()
             return { candles: [], pipSize: getPipSize(symbol) }
         }
